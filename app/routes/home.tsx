@@ -45,7 +45,6 @@ function HomePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Search and Filter Section */}
       <section className="bg-white p-6 rounded-lg shadow-lg mb-8">
         <div className="flex flex-wrap items-center gap-4 mb-4">
           <input
@@ -60,15 +59,33 @@ function HomePage() {
         <div className="flex flex-wrap gap-4">
           <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>Price</option>
+            <option>10$</option>
+            <option>20$</option>
+            <option>30$</option>
+            <option>40$</option>
+            <option>50$+</option>
           </select>
           <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>Category</option>
+            <option>Educational</option>
+            <option>Sci-Fi</option>
+            <option>Detective</option>
+            <option>Romantic</option>
+            <option>Thriller</option>
+            <option>Drama</option>
+            <option>Noir</option>
           </select>
           <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>Author</option>
+            <option>Most Popular</option>
+            <option>Alphabetical (A-Z)</option>
+            <option>Reversed (Z-A)</option>
           </select>
           <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>Availability</option>
+            <option>In Stock</option>
+            <option>Pre-order</option>
+            <option>Digital Only</option>
           </select>
         </div>
       </section>
