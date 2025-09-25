@@ -1,9 +1,10 @@
 import type { Route } from "./+types/home";
+import { featuredBooks } from "~/utils/types";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Campus Bookstore" },
+    { name: "description", content: "" },
   ];
 }
 
@@ -11,58 +12,6 @@ import BookCard from "../components/BookCard";
 import type { Book } from "~/utils/types";
 
 function HomePage() {
-  const featuredBooks: Book[] = [
-    {
-      id: 2,
-      title: "The Particular Sadness of the Lemon Cake",
-      author: "Aimee Bender",
-      price: "18.50",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/9780385533225-L.jpg",
-    },
-    {
-      id: 3,
-      title: "Nineteen Eighty-Four",
-      author: "George Orwell",
-      price: "30.25",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/0198185219-L.jpg",
-    },
-    {
-      id: 4,
-      title: "At Bertram's Hotel",
-      author: "Agatha Christie",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/0002310015-L.jpg",
-    },
-    {
-      id: 5,
-      title: "I, ROBOT",
-      author: "Isaac Asimov",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/9780329143558-L.jpg",
-    },
-    {
-      id: 6,
-      title: "Coraline",
-      author: "Neil Gaiman",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/8374801174-L.jpg",
-    },
-    {
-      id: 7,
-      title: "The Hobby",
-      author: "J. R. R. Tolkien",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/0395520215-L.jpg",
-    },
-    {
-      id: 1,
-      title: "The Game",
-      author: "Terry Sehott",
-      price: "25.00",
-      imageUrl: "https://covers.openlibrary.org/b/id/12547191-L.jpg",
-    },
-  ];
-
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="bg-white p-6 rounded-lg shadow-lg mb-8">
