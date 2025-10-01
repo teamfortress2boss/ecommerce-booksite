@@ -3,5 +3,5 @@ export type Book = {
   imageUrl: string;
   title: string;
   author: string;
-  price: string;
+  price: number;
 };

@@ -1,9 +1,14 @@
 import type { Route } from "./+types/home";
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js'
+const supabaseUrl = 'https://mbptntdjgaaxbkutvkst.supabase.co'
+const supabasekey = 'sb_publishable_bl0foT0cUlXywsYFTu3CPQ_usJlIQx-'
+const supabase = createClient(supabaseUrl, supabasekey)
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Campus Bookstore" },
+    { name: "description", content: "" },
   ];
 }
 
@@ -11,57 +16,31 @@ import BookCard from "../components/BookCard";
 import type { Book } from "~/utils/types";
 
 function HomePage() {
-  const featuredBooks: Book[] = [
-    {
-      id: 2,
-      title: "The Particular Sadness of the Lemon Cake",
-      author: "Aimee Bender",
-      price: "18.50",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/9780385533225-L.jpg",
-    },
-    {
-      id: 3,
-      title: "Nineteen Eighty-Four",
-      author: "George Orwell",
-      price: "30.25",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/0198185219-L.jpg",
-    },
-    {
-      id: 4,
-      title: "At Bertram's Hotel",
-      author: "Agatha Christie",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/0002310015-L.jpg",
-    },
-    {
-      id: 5,
-      title: "I, ROBOT",
-      author: "Isaac Asimov",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/9780329143558-L.jpg",
-    },
-    {
-      id: 6,
-      title: "Coraline",
-      author: "Neil Gaiman",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/8374801174-L.jpg",
-    },
-    {
-      id: 7,
-      title: "The Hobby",
-      author: "J. R. R. Tolkien",
-      price: "22.00",
-      imageUrl: "https://covers.openlibrary.org/b/isbn/0395520215-L.jpg",
-    },
-    {
-      id: 1,
-      title: "The Game",
-      author: "Terry Sehott",
-      price: "25.00",
-      imageUrl: "https://covers.openlibrary.org/b/id/12547191-L.jpg",
-    },
-  ];
+  const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function fetchBooks() {
+            setIsLoading(true);
+            let { data: products, error } = await supabase
+                .from('products')
+                .select('id, imageUrl, title, author, price');
+            if (error) {
+                console.log("Supabase Fetch Error:", error);
+                setFeaturedBooks([]);
+            }
+            else {
+                setFeaturedBooks(products as Book[]);
+            }
+            setIsLoading(false);
+          }
+
+    useEffect(() => {
+        fetchBooks();
+    }, []); 
+    
+    if (isLoading) {
+        return <div className="p-8 text-center">Loading books...</div>;
+    }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -72,7 +51,8 @@ function HomePage() {
             placeholder="Search books..."
             className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+          <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+            onClick={fetchBooks}>
             Search
           </button>
         </div>
@@ -115,9 +95,9 @@ function HomePage() {
           Featured Books
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-6 mx-auto">
-          {featuredBooks.map((book) => (
+          {featuredBooks.map(book =>
             <BookCard key={book.id} {...book} />
-          ))}
+          )}
         </div>
       </section>
     </div>
