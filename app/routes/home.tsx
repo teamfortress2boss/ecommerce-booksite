@@ -1,5 +1,9 @@
 import type { Route } from "./+types/home";
-import { featuredBooks } from "~/utils/types";
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js'
+const supabaseUrl = 'https://mbptntdjgaaxbkutvkst.supabase.co'
+const supabasekey = 'sb_publishable_bl0foT0cUlXywsYFTu3CPQ_usJlIQx-'
+const supabase = createClient(supabaseUrl, supabasekey)
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,6 +16,32 @@ import BookCard from "../components/BookCard";
 import type { Book } from "~/utils/types";
 
 function HomePage() {
+  const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function fetchBooks() {
+            setIsLoading(true);
+            let { data: products, error } = await supabase
+                .from('products')
+                .select('id, imageUrl, title, author, price');
+            if (error) {
+                console.log("Supabase Fetch Error:", error);
+                setFeaturedBooks([]);
+            }
+            else {
+                setFeaturedBooks(products as Book[]);
+            }
+            setIsLoading(false);
+          }
+
+    useEffect(() => {
+        fetchBooks();
+    }, []); 
+    
+    if (isLoading) {
+        return <div className="p-8 text-center">Loading books...</div>;
+    }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="bg-white p-6 rounded-lg shadow-lg mb-8">
@@ -21,7 +51,8 @@ function HomePage() {
             placeholder="Search books..."
             className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+          <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+            onClick={fetchBooks}>
             Search
           </button>
         </div>
@@ -64,9 +95,9 @@ function HomePage() {
           Featured Books
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-6 mx-auto">
-          {featuredBooks.map((book) => (
+          {featuredBooks.map(book =>
             <BookCard key={book.id} {...book} />
-          ))}
+          )}
         </div>
       </section>
     </div>
