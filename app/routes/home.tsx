@@ -18,21 +18,21 @@ import type { Book } from "~/utils/types";
 function HomePage() {
   const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState('');
 
   async function fetchBooks() {
-            setIsLoading(true);
-            let { data: products, error } = await supabase
-                .from('products')
-                .select('id, imageUrl, title, author, price');
-            if (error) {
-                console.log("Supabase Fetch Error:", error);
-                setFeaturedBooks([]);
-            }
-            else {
-                setFeaturedBooks(products as Book[]);
-            }
-            setIsLoading(false);
-          }
+    setIsLoading(true);
+    let { data: products, error } = await supabase
+      .from("products")
+      .select("id, imageUrl, title, author, price");
+    if (error) {
+      console.log("Supabase Fetch Error:", error);
+      setFeaturedBooks([]);
+    } else {
+      setFeaturedBooks(products as Book[]);
+    }
+    setIsLoading(false);
+  }
 
     useEffect(() => {
         fetchBooks();
@@ -50,6 +50,9 @@ function HomePage() {
             type="text"
             placeholder="Search books..."
             className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && fetchBooks()}
           />
           <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
             onClick={fetchBooks}>

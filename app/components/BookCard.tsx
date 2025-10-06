@@ -1,15 +1,18 @@
 import type { Book } from "~/utils/types";
+import { Link } from 'react-router-dom';
 
 const BookCard = (book: Book) => {
   return (
     <div className="bg-white rounded-lg p-6 max-w-sm h-[600px] flex flex-col justify-between">
       <div className="flex justify-center mb-6">
         <div className="relative w-48 h-64 overflow-hidden">
-          <img
-            src={book.imageUrl}
-            alt={`${book.title} book cover`}
-            className="w-full h-full object-cover rounded-md shadow-lg"
-          />
+          <Link to={`~/routes/BookDetails/${book.id}`}>
+            <img
+              src={book.imageUrl}
+              alt={`${book.title} book cover`}
+              className="w-full h-full object-cover rounded-md shadow-lg"
+            />
+          </Link>
         </div>
       </div>
 
