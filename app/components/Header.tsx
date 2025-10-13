@@ -1,6 +1,6 @@
 // src/components/Header.js
 import React from "react";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 
 /*function Header() {
   return (

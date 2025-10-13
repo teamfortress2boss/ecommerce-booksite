@@ -7,11 +7,18 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import type { Route } from "./+types/root";
+//import type { Route } from "./+types/root";
 import "./app.css";
-import Header from "./components/Header";
+import Header from "./components/Header"; 
+import { Routes, Route } from "react-router-dom";
+import About from "./routes/about";
+import Contact from "./routes/contact";
+import Account from "./routes/account";
+import Login from "./routes/login";
+import Shop from "./routes/shop";
+import PriceMatch from "./routes/price-match";
 
-export const links: Route.LinksFunction = () => [
+/*export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -22,7 +29,7 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
-];
+];*/
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -44,10 +51,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+    <Outlet />;
+    </>
+  )
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+/*export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
@@ -74,4 +85,4 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       )}
     </main>
   );
-}
+} */
