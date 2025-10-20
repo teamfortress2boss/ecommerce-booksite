@@ -1,18 +1,63 @@
+import type { FormEvent } from "react";
+import { useState } from "react";
 import type { Route } from "./+types/home";
 
-function Contact() {
-    return (
-        <div className="flex flex-col justify-between h-full text-center md:text-left py-12">
-          <div className="space-y-2">
-            <h1 className="text-4xl md:text-6xl font-bold text-green-800" >
-              About Us
-            </h1>
-            <p className="text-xl py=12 text-gray-600">
-              We are a company that seeks to provide the best available prices for textbooks.
-            </p>
-          </div>
-        </div>
-    )
-}
+export default function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+    throw new Error("Function not implemented.");
+  }
 
-export default Contact();
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
+        <h2 className="text-4xl font-bold text-center mb-6">Contact Us</h2>
+
+        <p className="text-gray-300 text-center mb-8">
+          We'd love to hear from you! Whether you have a question, feedback, or
+          just want to say hello, drop us a message below.
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <input
+            type="text"
+            placeholder="Your Name"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <textarea
+            placeholder="Your Message"
+            rows={5}
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          ></textarea>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            Send Message
+          </button>
+        </form>
+
+        <div className="mt-6 text-center text-sm text-gray-400">
+          Prefer email? Reach us at{" "}
+          <span className="text-blue-400">support@campusbookstore.com</span>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -6,7 +6,7 @@ const BookCard = (book: Book) => {
     <div className="bg-white rounded-lg p-6 max-w-sm h-[600px] flex flex-col justify-between">
       <div className="flex justify-center mb-6">
         <div className="relative w-48 h-64 overflow-hidden">
-          <Link to={`~/routes/BookDetails/${book.id}`}>
+          <Link to={`/BookDetails/${book.id}`}>
             <img
               src={book.imageUrl}
               alt={`${book.title} book cover`}
@@ -18,7 +18,7 @@ const BookCard = (book: Book) => {
 
       <div className="flex flex-col flex-grow">
         <div className="text-center mb-4">
-          <h2 className="text-xl font-semibold leading-tight">{book.title}</h2>
+          <h2 className="text-xl font-semibold leading-tight text-black">{book.title}</h2>
         </div>
 
         <div className="flex flex-col items-center  justify-start mb-6">
