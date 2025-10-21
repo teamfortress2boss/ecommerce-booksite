@@ -25,7 +25,7 @@ const BookCard = (book: Book) => {
           <p className="text-gray-600 mt-1">
             by <span className="font-medium">{book.author}</span>
           </p>
-          <div className="text-xl font-bold text-gray-800">${book.price}</div>
+          <div className="text-xl font-bold text-gray-800">${book.price.toFixed(2)}</div>
           <div className="ml-4 flex flex-col items-center">
             <span className="text-sm text-gray-400 line-through">
               List price: $17.99
