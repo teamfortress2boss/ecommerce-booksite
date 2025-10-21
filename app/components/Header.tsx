@@ -14,6 +14,9 @@ function Header() {
           <NavLink to="/login" className="text-white hover:text-blue-600 bg-black rounded px-2 py-1">
             Login
           </NavLink>
+          <NavLink to="/signup" className="text-black hover:text-blue-600 rounded px-2 py-1">
+            Sign up
+          </NavLink>
         </div>
       </div>
       <nav className="container mx-auto px-4 py-2 flex space-x-6 text-gray-700 font-semibold">

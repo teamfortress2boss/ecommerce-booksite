@@ -13,15 +13,73 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/about": {
+    params: {};
+  };
+  "/account": {
+    params: {};
+  };
+  "/BookDetails/:id": {
+    params: {
+      "id": string;
+    };
+  };
+  "/contact": {
+    params: {};
+  };
+  "/login": {
+    params: {};
+  };
+  "/price-match": {
+    params: {};
+  };
+  "/shop": {
+    params: {};
+  };
+  "/signup": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/";
+    page: "/" | "/about" | "/account" | "/BookDetails/:id" | "/contact" | "/login" | "/price-match" | "/shop" | "/signup";
   };
   "routes/home.tsx": {
     id: "routes/home";
     page: "/";
+  };
+  "routes/about.tsx": {
+    id: "routes/about";
+    page: "/about";
+  };
+  "routes/account.tsx": {
+    id: "routes/account";
+    page: "/account";
+  };
+  "routes/BookDetails.tsx": {
+    id: "routes/BookDetails";
+    page: "/BookDetails/:id";
+  };
+  "routes/contact.tsx": {
+    id: "routes/contact";
+    page: "/contact";
+  };
+  "routes/login.tsx": {
+    id: "routes/login";
+    page: "/login";
+  };
+  "routes/price-match.tsx": {
+    id: "routes/price-match";
+    page: "/price-match";
+  };
+  "routes/shop.tsx": {
+    id: "routes/shop";
+    page: "/shop";
+  };
+  "routes/signup.tsx": {
+    id: "routes/signup";
+    page: "/signup";
   };
 };

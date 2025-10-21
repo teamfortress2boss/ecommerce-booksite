@@ -1,4 +1,5 @@
 import {
+  BrowserRouter,
   isRouteErrorResponse,
   Links,
   Meta,
@@ -9,7 +10,7 @@ import {
 
 //import type { Route } from "./+types/root";
 import "./app.css";
-import Header from "./components/Header"; 
+import Header from "./components/Header";
 import { Routes, Route } from "react-router-dom";
 import About from "./routes/about";
 import Contact from "./routes/contact";
@@ -53,9 +54,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
-    <Outlet />;
+      <Outlet />
     </>
-  )
+  );
 }
 
 /*export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
