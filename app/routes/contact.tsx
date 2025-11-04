@@ -1,13 +1,40 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import type { Route } from "./+types/home";
+import { supabase } from "~/utils/supabase";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    throw new Error("Function not implemented.");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> {
+    event.preventDefault();
+    setSuccessMessage("");
+
+    const { error } = await supabase.functions.invoke("resend-email", {
+      method: "POST",
+      body: {
+        subject: `Contacting from E-Commerce Website (${name})`,
+        to: email,
+        html: message,
+      },
+    });
+
+    if (error) {
+      console.error(error);
+      setSuccessMessage("Something went wrong. Please try again later.");
+      return;
+    }
+
+    setName("");
+    setEmail("");
+    setMessage("");
+
+    setSuccessMessage("Message sent successfully!");
   }
 
   return (
@@ -52,6 +79,12 @@ export default function Contact() {
             Send Message
           </button>
         </form>
+
+        {successMessage && (
+          <p className="mt-4 text-center text-green-400 animate-fade-in">
+            {successMessage}
+          </p>
+        )}
 
         <div className="mt-6 text-center text-sm text-gray-400">
           Prefer email? Reach us at{" "}
