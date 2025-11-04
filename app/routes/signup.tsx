@@ -44,7 +44,6 @@ export default function SignUp() {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      navigate("/login");
     }
   }
 

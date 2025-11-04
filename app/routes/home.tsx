@@ -1,9 +1,6 @@
 import type { Route } from "./+types/home";
 import { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://mbptntdjgaaxbkutvkst.supabase.co'
-const supabasekey = 'sb_publishable_bl0foT0cUlXywsYFTu3CPQ_usJlIQx-'
-const supabase = createClient(supabaseUrl, supabasekey)
+import { supabase } from '~/utils/supabase';
 
 export function meta({}: Route.MetaArgs) {
   return [

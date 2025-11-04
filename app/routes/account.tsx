@@ -1,6 +1,38 @@
 import type { Route } from "./+types/home";
+import { supabase } from "~/utils/supabase";
+import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
 
 export default function Account() {
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState<any | null>("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user) {
+          setUserData(user);
+        }
+      } catch (e) {
+        console.error("Error fetching data:", e);
+        setUserData(null);
+      }
+      finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  if (isLoading) {
+    return <div className="p-8 text-center">Loading...</div>;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
@@ -15,13 +47,16 @@ export default function Account() {
               Profile Information
             </h3>
             <p>
-              <span className="text-gray-400">Name:</span> John Doe
+              <span className="text-gray-400">Name: </span>
+              {userData.id || "N/A"}
             </p>
             <p>
-              <span className="text-gray-400">Email:</span> johndoe@example.com
+              <span className="text-gray-400">Email: </span>
+              {userData.email || "N/A"}
             </p>
             <p>
-              <span className="text-gray-400">Member Since:</span> January 2024
+              <span className="text-gray-400">Member Since: </span>
+              {userData.created_at?.slice(0, 10) || "N/A"}
             </p>
           </div>
 
@@ -42,7 +77,13 @@ export default function Account() {
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
               Edit Profile
             </button>
-            <button className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300">
+            <button
+              onClick={() => {
+                supabase.auth.signOut();
+                navigate("/login");
+              }}
+              className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300"
+            >
               Log Out
             </button>
           </div>
