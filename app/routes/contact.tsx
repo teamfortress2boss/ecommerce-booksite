@@ -18,14 +18,14 @@ export default function Contact() {
     const { error } = await supabase.functions.invoke("resend-email", {
       method: "POST",
       body: {
-        subject: `Contacting from E-Commerce Website (${name})`,
         to: email,
+        subject: `Contacting from E-Commerce Website (${name})`,
         html: message,
       },
     });
 
     if (error) {
-      console.error(error);
+      console.error(error.message);
       setSuccessMessage("Something went wrong. Please try again later.");
       return;
     }

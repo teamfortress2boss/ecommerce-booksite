@@ -1,7 +1,7 @@
 import type { Route } from "./+types/home";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { supabase } from "~/utils/supabase"; 
+import { supabase } from "~/utils/supabase";
 
 import BookCard from "../components/BookCard";
 import type { Book } from "~/utils/types";
@@ -14,7 +14,7 @@ export default function Shop() {
   const [search, setSearch] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
-  const [authorFilter, setAuthorFilter] = useState("");
+  const [sortFilter, setSortFilter] = useState("");
   const [availabilityFilter, setAvailabilityFilter] = useState("");
 
   async function fetchBooksByTitle() {
@@ -34,25 +34,68 @@ export default function Shop() {
 
   async function fetchBooksByFilters() {
     setLoading(true);
-    var result;
-    if (priceFilter){
-      result = await supabase.from("products").select("id, imageUrl, title, author, price").lte("price", parseFloat(priceFilter.replace("$","").replace("+","")));
-      setBookResults(result.data as Book[]);
+
+    let query = supabase
+      .from("products")
+      .select("id, imageUrl, title, author, price");
+
+    if (search.trim()) {
+      query = query.ilike("title", `%${search.trim()}%`);
     }
-    if (categoryFilter){
-      result = await supabase.from("products").select("id, imageUrl, title, author, price").eq("category", categoryFilter);
-      setBookResults(result.data as Book[]);
+
+    if (priceFilter) {
+      const parsedPrice = parseFloat(
+        priceFilter.replace("$", "").replace("+", "")
+      );
+      query = query.lte("price", parsedPrice);
     }
-    if (authorFilter){
-      if (authorFilter === "Alphabetical (A-Z)"){result = await supabase.from("products").select("id, imageUrl, title, author, price").order("author", { ascending: true}); setBookResults(result.data as Book[]);}
-      if (authorFilter === "Reversed (Z-A)"){result = await supabase.from("products").select("id, imageUrl, title, author, price").order("author", { ascending: false}); setBookResults(result.data as Book[]);}
+
+    if (categoryFilter) {
+      query = query.eq("category", categoryFilter);
     }
+
+    if (availabilityFilter) {
+      if (availabilityFilter === "in-stock") {
+        query = query.eq("in_stock", true);
+      }
+      if (availabilityFilter === "digital-only") {
+        query = query.eq("digital_only", true);
+      }
+    }
+
+    if (sortFilter === "price-asc") {
+      query = query.order("price", { ascending: true });
+    } else if (sortFilter === "price-desc") {
+      query = query.order("price", { ascending: false });
+    } else if (sortFilter === "title-asc") {
+      query = query.order("title", { ascending: true });
+    } else if (sortFilter === "title-desc") {
+      query = query.order("title", { ascending: false });
+    } else if (sortFilter === "author-asc") {
+      query = query.order("author", { ascending: true });
+    } else if (sortFilter === "author-desc") {
+      query = query.order("author", { ascending: false });
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("Supabase Filter Error:", error);
+      setBookResults([]);
+    } else {
+      setBookResults(data as Book[]);
+    }
+
     setLoading(false);
   }
 
-  if (loading) {
-        return <div className="p-8 text-center">Loading books...</div>;
+  useEffect(() => {
+    if (priceFilter || categoryFilter || sortFilter || availabilityFilter) {
+      fetchBooksByFilters();
+    } else {
+      setBookResults([]);
     }
+  }, [priceFilter, categoryFilter, sortFilter, availabilityFilter]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -64,17 +107,21 @@ export default function Shop() {
             className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && fetchBooksByTitle()}
+            onKeyPress={(e) => e.key === "Enter" && fetchBooksByTitle()}
           />
-          <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
-            onClick={fetchBooksByTitle}>
+          <button
+            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+            onClick={fetchBooksByTitle}
+          >
             Search
           </button>
         </div>
         <div className="flex flex-wrap gap-4">
-          <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-          value={priceFilter}
-          onChange={(e) => setPriceFilter(e.target.value)}>
+          <select
+            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            value={priceFilter}
+            onChange={(e) => setPriceFilter(e.target.value)}
+          >
             <option>Price</option>
             <option>10$</option>
             <option>20$</option>
@@ -82,34 +129,61 @@ export default function Shop() {
             <option>40$</option>
             <option>50$+</option>
           </select>
-          <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-          value={categoryFilter}
-          onChange={(e) => setPriceFilter(e.target.value)}>
+          <select
+            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
             <option>Category</option>
-            <option>Educational</option>
-            <option>Sci-Fi</option>
-            <option>Detective</option>
-            <option>Romantic</option>
+            <option>Classic</option>
+            <option>Dystopian</option>
+            <option>Fantasy</option>
+            <option>Fiction</option>
+            <option>Historical Fiction</option>
+            <option>Horror</option>
+            <option>Magical Realism</option>
+            <option>Memoir</option>
+            <option>Mystery</option>
+            <option>Philosophical Fiction</option>
+            <option>Post-Apocalyptic</option>
+            <option>Science Fiction</option>
             <option>Thriller</option>
-            <option>Drama</option>
-            <option>Noir</option>
           </select>
-          <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-          value={authorFilter}
-          onChange={(e) => setPriceFilter(e.target.value)}>
-            <option>Author</option>
-            <option>Most Popular</option>
-            <option>Alphabetical (A-Z)</option>
-            <option>Reversed (Z-A)</option>
+          <select
+            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            value={sortFilter}
+            onChange={(e) => setSortFilter(e.target.value)}
+          >
+            <option value="">Sort By</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
+            <option value="title-asc">Title (A-Z)</option>
+            <option value="title-desc">Title (Z-A)</option>
+            <option value="author-asc">Author (A-Z)</option>
+            <option value="author-desc">Author (Z-A)</option>
           </select>
-          <select className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-          value={availabilityFilter}
-          onChange={(e) =>setPriceFilter(e.target.value)}>
-            <option>Availability</option>
-            <option>In Stock</option>
-            <option>Pre-order</option>
-            <option>Digital Only</option>
+          <select
+            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            value={availabilityFilter}
+            onChange={(e) => setAvailabilityFilter(e.target.value)}
+          >
+            <option value="">Availability</option>
+            <option value="in-stock">In Stock</option>
+            <option value="pre-order">Pre-order</option>
+            <option value="digital-only">Digital Only</option>
           </select>
+          <button
+            className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
+            onClick={() => {
+              setPriceFilter("");
+              setCategoryFilter("");
+              setSortFilter("");
+              setAvailabilityFilter("");
+              setBookResults([]);
+            }}
+          >
+            Reset Filters
+          </button>
         </div>
       </section>
 
@@ -117,10 +191,15 @@ export default function Shop() {
         <h2 className="text-2xl font-bold text-gray-800 mb-6">
           Search Results
         </h2>
+        {bookResults.length === 0 && !loading && (
+          <p className="text-center text-gray-500">
+            No books found. Try adjusting your filters or search.
+          </p>
+        )}
         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-6 mx-auto">
-          {bookResults.map(book =>
+          {bookResults.map((book) => (
             <BookCard key={book.id} {...book} />
-          )}
+          ))}
         </div>
       </section>
     </div>
