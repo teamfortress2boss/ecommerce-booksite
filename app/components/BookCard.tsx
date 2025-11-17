@@ -11,6 +11,10 @@ const BookCard = (book: Book) => {
               src={book.imageUrl}
               alt={`${book.title} book cover`}
               className="w-full h-full object-cover rounded-md shadow-lg"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/mustang.png";
+              }}
             />
           </Link>
         </div>

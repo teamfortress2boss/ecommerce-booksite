@@ -17,7 +17,12 @@ function Header() {
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center border-b border-gray-200">
-        <h1 className="text-xl font-bold text-gray-800">Campus Bookstore</h1>
+        <img
+          src="/mustang.png"
+          alt="Mustang Bookstore Logo"
+          className="h-10 w-10 mr-2"
+        />
+        <h1 className="text-xl font-bold text-gray-800">Mustang Bookstore</h1>
         {isAuthenticated ? (
           <div className="flex space-x-4">
             <NavLink
@@ -67,7 +72,7 @@ function Header() {
           About
         </NavLink>
         <NavLink to="/contact" className="hover:text-blue-600">
-          Contact
+          Contact Us
         </NavLink>
       </nav>
     </header>

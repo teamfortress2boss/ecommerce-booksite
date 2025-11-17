@@ -4,7 +4,7 @@ import { supabase } from '~/utils/supabase';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Campus Bookstore" },
+    { title: "Mustang Bookstore" },
     { name: "description", content: "" },
   ];
 }
@@ -26,7 +26,9 @@ function HomePage() {
       console.log("Supabase Fetch Error:", error);
       setFeaturedBooks([]);
     } else {
-      setFeaturedBooks(products as Book[]);
+      const shuffled = [...products].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 6);
+      setFeaturedBooks(selected as Book[]);
     }
     setIsLoading(false);
   }

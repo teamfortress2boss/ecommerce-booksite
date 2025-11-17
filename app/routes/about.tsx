@@ -2,12 +2,12 @@ import type { Route } from "./+types/home";
 
 export default function About() {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-3xl text-white">
+      <div className="min-h-screen flex items-center justify-center bg-yellow-400">
+        <div className="bg-yellow-900 p-8 rounded-lg shadow-lg w-full max-w-3xl text-white">
           <h2 className="text-4xl font-bold text-center mb-6">About Us</h2>
 
-          <p className="text-lg text-gray-300 mb-6 text-center">
-            At the <span className="text-blue-400 font-semibold">Campus Bookstore</span>,
+          <p className="text-lg text-white mb-6 text-center">
+            At the <span className="text-blue-400 font-semibold">Mustang Bookstore</span>,
             we believe stories have the power to transform minds and connect
             hearts. Our mission is to make discovering great books effortless,
             engaging, and inclusive.
@@ -35,7 +35,7 @@ export default function About() {
             </div>
           </div>
 
-          <div className="mt-8 text-center text-sm text-gray-400">
+          <div className="mt-8 text-center text-sm text-white">
             Want to get in touch?{" "}
             <a href="/contact" className="text-blue-400 hover:underline">
               Contact Us
