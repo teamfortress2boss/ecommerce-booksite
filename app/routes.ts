@@ -13,4 +13,5 @@ export default [index("routes/home.tsx"),
     route("checkout", "routes/Checkout.tsx"),
     route("orders", "routes/OrderHistory.tsx"),
     route("order-confirmation", "routes/OrderConfirmation.tsx"),
+    route("orders", "routes/OrderHistory.tsx")
 ] satisfies RouteConfig;
