@@ -11,6 +11,7 @@ import {
 //import type { Route } from "./+types/root";
 import "./app.css";
 import Header from "./components/Header";
+import { CartProvider } from "./components/Context/CartContext";
 import { Routes, Route } from "react-router-dom";
 import About from "./routes/about";
 import Contact from "./routes/contact";
@@ -42,8 +43,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Header />
-        {children}
+       <CartProvider>
+          <Header />
+          {children}
+        </CartProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
