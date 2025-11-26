@@ -15,7 +15,6 @@ import type { Book } from "~/utils/types";
 function HomePage() {
   const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState('');
 
   async function fetchBooks() {
     setIsLoading(true);
