@@ -1,18 +1,19 @@
 // src/components/Header.tsx
+
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { supabase } from "~/utils/supabase";
-import { useCart } from "~/Context/CartContext";
+import { useCart } from "~/Context/CartContext"; 
 
 function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
-  // cart items
+  // cart context for badge count
   const { cartItems } = useCart();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session?.user);
     });
   }, []);
@@ -57,6 +58,7 @@ function Header() {
             >
               Login
             </NavLink>
+
             <NavLink
               to="/signup"
               className="text-black hover:text-blue-600 rounded px-2 py-1"
@@ -83,14 +85,10 @@ function Header() {
         <NavLink to="/contact" className="hover:text-blue-600">
           Contact Us
         </NavLink>
-        <NavLink to="/orders" className="hover:text-blue-600 ml-4">
+        <NavLink to="/orders" className="hover:text-blue-600 ml-6">
           Order History
         </NavLink>
-
-        <NavLink
-          to="/cart"
-          className="hover:text-blue-600 flex items-center gap-1"
-        >
+        <NavLink to="/cart" className="hover:text-blue-600 flex items-center gap-1">
           Cart
           <span className="bg-black text-white text-xs rounded-full px-2 py-0.5">
             {cartItems.length}
@@ -102,4 +100,5 @@ function Header() {
 }
 
 export default Header;
+
 
