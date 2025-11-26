@@ -1,6 +1,6 @@
 import React, { type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../routes/CartContext";
+import { useCart } from "../Context/CartContext";
 
 const Checkout: React.FC = () => {
   const { cartItems, total, clearCart } = useCart();
