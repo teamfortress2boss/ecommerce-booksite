@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { supabase } from "~/utils/supabase";
-import { useCart } from "~/Context/CartContext"; 
+import { useCart } from "~/components/Context/CartContext"; 
 
 function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

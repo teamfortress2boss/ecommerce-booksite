@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../Context/CartContext";
+import { useCart } from "../components/Context/CartContext";
 
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, total, clearCart } =
