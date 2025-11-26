@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import type { CartItem } from "../routes/CartContext";
+import type { CartItem } from "../Context/CartContext";
 
 type OrderState = {
   items: CartItem[];
