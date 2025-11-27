@@ -47,7 +47,7 @@ const Checkout: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+    <div className="max-w-3xl mx-auto mt-8 bg-white shadow-md rounded-lg p-6 text-black">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Checkout</h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">

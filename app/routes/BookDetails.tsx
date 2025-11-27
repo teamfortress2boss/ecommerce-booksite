@@ -1,8 +1,9 @@
 import type { Route } from "./+types/home";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useParams } from "react-router-dom";
 import { supabase } from "~/utils/supabase";
+import { useCart } from "~/components/Context/CartContext";
 
 import type { Book } from "~/utils/types";
 
@@ -11,7 +12,15 @@ export default function BookDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [book, setBook] = useState<Book | null>(null);
-  const [addingToCart, setAddingToCart] = useState(false);
+  const { addToCart } = useCart();
+
+  async function handleSubmit(
+    event: FormEvent<HTMLButtonElement>
+  ): Promise<void> {
+    event.preventDefault();
+    if (book)
+      addToCart(book as Book);
+  }
 
   useEffect(() => {
     async function fetchBook() {
@@ -73,12 +82,12 @@ export default function BookDetails() {
             <div className="text-2xl font-bold text-blue-300 mb-2">
               ${book.price.toFixed(2)}
             </div>
-            <span className="text-sm text-gray-200 line-through">
-              List price: $17.99
-            </span>
 
             <div className="mt-6 flex gap-4">
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+              <button
+                onClick={handleSubmit}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+              >
                 Add to Cart
               </button>
               <button className="text-red-400 hover:text-red-600 transition duration-300">

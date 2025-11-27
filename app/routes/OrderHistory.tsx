@@ -44,7 +44,7 @@ const OrderHistory: React.FC = () => {
 
             <tbody>
               {history.map((order, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50">
+                <tr key={index} className="border-b hover:bg-gray-50 text-black">
                   <td className="py-2 font-mono">{order.orderId}</td>
                   <td className="py-2 font-mono">{order.orderNumber}</td>
                   <td className="py-2">

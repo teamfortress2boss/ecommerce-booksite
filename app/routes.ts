@@ -12,5 +12,6 @@ export default [index("routes/home.tsx"),
     route("cart", "routes/Cart.tsx"),
     route("checkout", "routes/Checkout.tsx"),
     route("orders", "routes/OrderHistory.tsx"),
-    route("order-confirmation", "routes/OrderConfirmation.tsx")
+    route("order-confirmation", "routes/OrderConfirmation.tsx"),
+    route("forgot-password", "routes/forgotpassword.tsx")
 ] satisfies RouteConfig;

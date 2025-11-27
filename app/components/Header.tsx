@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { supabase } from "~/utils/supabase";
-import { useCart } from "~/components/Context/CartContext"; 
+import { useCart } from "~/components/Context/CartContext";
 
 function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,13 +27,23 @@ function Header() {
             alt="Mustang Bookstore Logo"
             className="h-10 w-10 mr-2"
           />
-          <h1 className="text-xl font-bold text-gray-800">
-            Mustang Bookstore
-          </h1>
+          <h1 className="text-xl font-bold text-gray-800">Mustang Bookstore</h1>
         </div>
 
         {isAuthenticated ? (
           <div className="flex space-x-4">
+            <NavLink to="/orders" className="text-white hover:text-blue-600 bg-black rounded px-2 py-1">
+              Order History
+            </NavLink>
+            <NavLink
+              to="/cart"
+              className="text-white hover:text-blue-600 bg-black rounded px-3 py-1"
+            >
+              Cart
+              <span className="bg-white text-black text-xs rounded-full px-2 py-0.5 ml-2">
+                {cartItems.length}
+              </span>
+            </NavLink>
             <NavLink
               to="/account"
               className="text-white hover:text-blue-600 bg-black rounded px-2 py-1"
@@ -79,20 +89,11 @@ function Header() {
         <NavLink to="/price-match" className="hover:text-blue-600">
           Price Match
         </NavLink>
-        <NavLink to="/about" className="hover:text-blue-600">
-          About
-        </NavLink>
         <NavLink to="/contact" className="hover:text-blue-600">
           Contact Us
         </NavLink>
-        <NavLink to="/orders" className="hover:text-blue-600 ml-6">
-          Order History
-        </NavLink>
-        <NavLink to="/cart" className="hover:text-blue-600 flex items-center gap-1">
-          Cart
-          <span className="bg-black text-white text-xs rounded-full px-2 py-0.5">
-            {cartItems.length}
-          </span>
+        <NavLink to="/about" className="hover:text-blue-600">
+          About
         </NavLink>
       </nav>
     </header>
@@ -100,5 +101,3 @@ function Header() {
 }
 
 export default Header;
-
-

@@ -38,10 +38,10 @@ const Cart: React.FC = () => {
             className="flex justify-between items-center bg-white shadow-sm p-4 rounded-lg"
           >
             <div>
-              <h2 className="font-semibold text-lg">{item.title}</h2>
+              <h2 className="font-semibold text-lg text-black">{item.title}</h2>
               <p className="text-gray-500">${item.price.toFixed(2)}</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 text-gray-500">
               <input
                 type="number"
                 min={1}

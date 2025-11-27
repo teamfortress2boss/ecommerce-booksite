@@ -51,12 +51,15 @@ type Pages = {
   "/order-confirmation": {
     params: {};
   };
+  "/forgot-password": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/about" | "/account" | "/BookDetails/:id" | "/contact" | "/login" | "/price-match" | "/shop" | "/signup" | "/cart" | "/checkout" | "/orders" | "/order-confirmation";
+    page: "/" | "/about" | "/account" | "/BookDetails/:id" | "/contact" | "/login" | "/price-match" | "/shop" | "/signup" | "/cart" | "/checkout" | "/orders" | "/order-confirmation" | "/forgot-password";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -109,5 +112,9 @@ type RouteFiles = {
   "routes/OrderConfirmation.tsx": {
     id: "routes/OrderConfirmation";
     page: "/order-confirmation";
+  };
+  "routes/forgotpassword.tsx": {
+    id: "routes/forgotpassword";
+    page: "/forgot-password";
   };
 };

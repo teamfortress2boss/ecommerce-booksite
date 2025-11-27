@@ -87,7 +87,7 @@ const OrderConfirmation: React.FC = () => {
         Items
       </h2>
       <div className="text-sm mb-4">
-        <div className="flex justify-between border-b border-gray-200 pb-1 mb-1 font-medium">
+        <div className="flex justify-between border-b border-gray-200 pb-1 mb-1 font-medium text-gray-700">
           <span className="w-1/2">Title</span>
           <span className="w-1/6 text-center">Qty</span>
           <span className="w-1/6 text-right">Each</span>
@@ -96,7 +96,7 @@ const OrderConfirmation: React.FC = () => {
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex justify-between py-1 border-b border-gray-100"
+            className="flex justify-between py-1 border-b border-gray-100 text-gray-800"
           >
             <span className="w-1/2 pr-2 truncate" title={item.title}>
               {item.title}
@@ -112,7 +112,7 @@ const OrderConfirmation: React.FC = () => {
         ))}
       </div>
 
-      <div className="text-sm space-y-1 mb-4">
+      <div className="text-sm space-y-1 mb-4 text-gray-800">
         <div className="flex justify-between">
           <span className="text-gray-600">Subtotal</span>
           <span className="font-mono">${subtotal.toFixed(2)}</span>
