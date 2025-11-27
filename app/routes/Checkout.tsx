@@ -1,7 +1,7 @@
 import React, { type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../components/Context/CartContext";
-import { supabase } from "~/utils/supabase"; // adjust path if needed
+import { supabase } from "~/utils/supabase";
 
 const Checkout: React.FC = () => {
   const { cartItems, total, clearCart } = useCart();
@@ -28,25 +28,53 @@ const Checkout: React.FC = () => {
     const zip = formData.get("zip") as string;
 
   
-    const { error } = await supabase.from("orders").insert({
-      first_name,
-      last_name,
-      phone_number,
-      address,
-      apt_suite_building,
-      city,
-      state,
-      country,
-      zip,
-    });
+        const { data: orderRow, error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        first_name,
+        last_name,
+        phone_number,
+        address,
+        apt_suite_building,
+        city,
+        state,
+        country,
+        zip,
+      })
+      .select("id")
+      .single();
 
-    if (error) {
-      console.error("Supabase insert error:", error);
+    if (orderError || !orderRow) {
+      console.error("Supabase order insert error:", orderError);
       alert("There was a problem saving your order. Please try again.");
       return;
     }
 
+    const orderDbId = orderRow.id; 
+
   
+    if (cartItems.length > 0) {
+      const lineItems = cartItems.map((item) => ({
+        
+        OrderID: orderDbId,        
+        product_id: item.id,       
+        quantity: item.quantity,
+        unit_price: item.price,
+      }));
+
+      const { error: lineItemsError } = await supabase
+        .from("order_products")
+        .insert(lineItems);
+
+      if (lineItemsError) {
+        console.error(
+          "Supabase order_products insert error:",
+          lineItemsError
+        );
+      }
+    }
+
+   
     const now = new Date();
     const orderId =
       "CB-" + Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -74,12 +102,12 @@ const Checkout: React.FC = () => {
       },
     };
 
-    const existingHistory = JSON.parse(window.localStorage.getItem("orderHistory") || "[]"
+    const existingHistory = JSON.parse(
+      window.localStorage.getItem("orderHistory") || "[]"
     ) as typeof orderDetails[];
     existingHistory.push(orderDetails);
     window.localStorage.setItem("orderHistory", JSON.stringify(existingHistory));
 
- 
     clearCart();
     navigate("/order-confirmation", { state: orderDetails });
   };
