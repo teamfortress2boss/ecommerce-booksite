@@ -39,12 +39,27 @@ type Pages = {
   "/signup": {
     params: {};
   };
+  "/cart": {
+    params: {};
+  };
+  "/checkout": {
+    params: {};
+  };
+  "/orders": {
+    params: {};
+  };
+  "/order-confirmation": {
+    params: {};
+  };
+  "/forgot-password": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/about" | "/account" | "/BookDetails/:id" | "/contact" | "/login" | "/price-match" | "/shop" | "/signup";
+    page: "/" | "/about" | "/account" | "/BookDetails/:id" | "/contact" | "/login" | "/price-match" | "/shop" | "/signup" | "/cart" | "/checkout" | "/orders" | "/order-confirmation" | "/forgot-password";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -81,5 +96,25 @@ type RouteFiles = {
   "routes/signup.tsx": {
     id: "routes/signup";
     page: "/signup";
+  };
+  "routes/Cart.tsx": {
+    id: "routes/Cart";
+    page: "/cart";
+  };
+  "routes/Checkout.tsx": {
+    id: "routes/Checkout";
+    page: "/checkout";
+  };
+  "routes/OrderHistory.tsx": {
+    id: "routes/OrderHistory";
+    page: "/orders";
+  };
+  "routes/OrderConfirmation.tsx": {
+    id: "routes/OrderConfirmation";
+    page: "/order-confirmation";
+  };
+  "routes/forgotpassword.tsx": {
+    id: "routes/forgotpassword";
+    page: "/forgot-password";
   };
 };

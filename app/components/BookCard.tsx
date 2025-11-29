@@ -1,9 +1,20 @@
 import type { Book } from "~/utils/types";
-import { Link } from 'react-router-dom';
+import type { FormEvent } from "react";
+import { Link } from "react-router-dom";
+import { useCart } from "./Context/CartContext";
 
 const BookCard = (book: Book) => {
+  const { addToCart } = useCart();
+  
+  async function handleSubmit(
+    event: FormEvent<HTMLButtonElement>
+  ): Promise<void> {
+    event.preventDefault();
+    addToCart(book);
+  }
+
   return (
-    <div className="bg-white rounded-lg p-6 max-w-sm h-[600px] flex flex-col justify-between">
+    <div className="bg-white rounded-lg p-6 max-w-sm h-[600px] flex flex-col gap-4">
       <div className="flex justify-center mb-6">
         <div className="relative w-48 h-64 overflow-hidden">
           <Link to={`/BookDetails/${book.id}`}>
@@ -11,6 +22,10 @@ const BookCard = (book: Book) => {
               src={book.imageUrl}
               alt={`${book.title} book cover`}
               className="w-full h-full object-cover rounded-md shadow-lg"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/mustang.png";
+              }}
             />
           </Link>
         </div>
@@ -18,18 +33,19 @@ const BookCard = (book: Book) => {
 
       <div className="flex flex-col flex-grow">
         <div className="text-center mb-4">
-          <h2 className="text-xl font-semibold leading-tight text-black">{book.title}</h2>
+          <h2 className="text-xl font-semibold leading-tight text-black">
+            {book.title}
+          </h2>
         </div>
 
-        <div className="flex flex-col items-center  justify-start mb-6">
+        <div className="flex flex-col items-center space-y-4">
           <p className="text-gray-600 mt-1">
             by <span className="font-medium">{book.author}</span>
           </p>
-          <div className="text-xl font-bold text-gray-800">${book.price.toFixed(2)}</div>
+          <div className="text-xl font-bold text-gray-800">
+            ${book.price.toFixed(2)}
+          </div>
           <div className="ml-4 flex flex-col items-center">
-            <span className="text-sm text-gray-400 line-through">
-              List price: $17.99
-            </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -46,7 +62,10 @@ const BookCard = (book: Book) => {
       </div>
 
       <div className="flex items-center justify-center space-x-4">
-        <button className="bg-white text-black hover:bg-gray-900 cursor-pointer font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:text-white border-black border-2 transition ease-iout duration-300 ">
+        <button
+          onClick={handleSubmit}
+          className="bg-white text-black hover:bg-gray-900 cursor-pointer font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:text-white border-black border-2 transition ease-iout duration-300 "
+        >
           Add to Cart
         </button>
         <button className="text-gray-500 hover:text-red-500 transition-colors duration-200 cursor-pointer">

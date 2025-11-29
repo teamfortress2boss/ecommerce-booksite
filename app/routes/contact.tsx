@@ -57,8 +57,8 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
+    <div className="min-h-screen flex items-center justify-center bg-yellow-400">
+      <div className="bg-yellow-900 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
         <h2 className="text-4xl font-bold text-center mb-6">Contact Us</h2>
 
         <p className="text-gray-300 text-center mb-8">
@@ -70,7 +70,7 @@ export default function Contact() {
           <input
             type="text"
             placeholder="Your Name"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -78,7 +78,7 @@ export default function Contact() {
           <input
             type="email"
             placeholder="Your Email"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -86,7 +86,7 @@ export default function Contact() {
           <textarea
             placeholder="Your Message"
             rows={5}
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
@@ -105,9 +105,9 @@ export default function Contact() {
           </p>
         )}
 
-        <div className="mt-6 text-center text-sm text-gray-400">
+        <div className="mt-6 text-center text-sm text-white">
           Prefer email? Reach us at{" "}
-          <span className="text-blue-400">support@campusbookstore.com</span>
+          <span className="text-blue-400">support@mustangbookstore.com</span>
         </div>
       </div>
     </div>

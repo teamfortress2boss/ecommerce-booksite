@@ -60,7 +60,7 @@ export default function Account() {
             </p>
           </div>
 
-          {/* Recent Activity */}
+          {/* Recent Activity
           <div className="bg-gray-700 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold text-blue-300 mb-2">
               Recent Activity
@@ -70,7 +70,7 @@ export default function Account() {
               <li>Requested price match for “Clean Code”</li>
               <li>Updated shipping address</li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Account Actions */}
           <div className="flex justify-between mt-6">

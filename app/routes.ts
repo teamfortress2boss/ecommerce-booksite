@@ -8,5 +8,10 @@ export default [index("routes/home.tsx"),
     route("login", "routes/login.tsx"),
     route("price-match", "routes/price-match.tsx"),
     route("shop", "routes/shop.tsx"),
-    route("signup", "routes/signup.tsx")
+    route("signup", "routes/signup.tsx"),
+    route("cart", "routes/Cart.tsx"),
+    route("checkout", "routes/Checkout.tsx"),
+    route("orders", "routes/OrderHistory.tsx"),
+    route("order-confirmation", "routes/OrderConfirmation.tsx"),
+    route("forgot-password", "routes/forgotpassword.tsx")
 ] satisfies RouteConfig;

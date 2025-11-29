@@ -1,5 +1,6 @@
 import type { Route } from "./+types/home";
 import { useState, type FormEvent } from "react";
+import { supabase } from "~/utils/supabase";
 
 export default function PriceMatch() {
   const [name, setName] = useState("");
@@ -7,13 +8,43 @@ export default function PriceMatch() {
   const [bookTitle, setBookTitle] = useState("");
   const [competitorPrice, setCompetitorPrice] = useState("");
   const [competitorLink, setCompetitorLink] = useState("");
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    throw new Error("Function not implemented.");
-  }
+  const [successMessage, setSuccessMessage] = useState("");
+
+  async function handleSubmit(
+      event: FormEvent<HTMLFormElement>
+    ): Promise<void> {
+      event.preventDefault();
+      setSuccessMessage("");
+  
+      const { error } = await supabase.functions.invoke("resend-email", {
+        method: "POST",
+        body: {
+          to: email,
+          subject: `Contacting from E-Commerce Website (${name})`,
+          html: `<p>Book Title: ${bookTitle}</p>
+                 <p>Competitor Price: ${competitorPrice}</p>
+                 <p>Competitor Link: <a href="${competitorLink}">${competitorLink}</a></p>`,
+        },
+      });
+  
+      if (error) {
+        console.error(error.message);
+        setSuccessMessage("Something went wrong. Please try again later.");
+        return;
+      }
+  
+      setName("");
+      setEmail("");
+      setBookTitle("");
+      setCompetitorPrice("");
+      setCompetitorLink("");
+  
+      setSuccessMessage("Message sent successfully!");
+    }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
+    <div className="min-h-screen flex items-center justify-center bg-yellow-400">
+      <div className="bg-yellow-900 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
         <h2 className="text-4xl font-bold text-center mb-6">
           Price Match Guarantee
         </h2>
@@ -28,7 +59,7 @@ export default function PriceMatch() {
           <input
             type="text"
             placeholder="Your Name"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -36,7 +67,7 @@ export default function PriceMatch() {
           <input
             type="email"
             placeholder="Your Email"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -44,7 +75,7 @@ export default function PriceMatch() {
           <input
             type="text"
             placeholder="Book Title"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={bookTitle}
             onChange={(e) => setBookTitle(e.target.value)}
             required
@@ -52,7 +83,7 @@ export default function PriceMatch() {
           <input
             type="text"
             placeholder="Competitor Price (e.g. $12.99)"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={competitorPrice}
             onChange={(e) => setCompetitorPrice(e.target.value)}
             required
@@ -60,7 +91,7 @@ export default function PriceMatch() {
           <input
             type="url"
             placeholder="Link to Competitor Listing"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={competitorLink}
             onChange={(e) => setCompetitorLink(e.target.value)}
             required
@@ -73,9 +104,15 @@ export default function PriceMatch() {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-400">
+        {successMessage && (
+          <p className="mt-4 text-center text-green-400 animate-fade-in">
+            {successMessage}
+          </p>
+        )}
+
+        <div className="mt-6 text-center text-sm text-white">
           Questions? Email us at{" "}
-          <span className="text-blue-400">support@campusbookstore.com</span>
+          <span className="text-blue-400">support@mustangbookstore.com</span>
         </div>
       </div>
     </div>

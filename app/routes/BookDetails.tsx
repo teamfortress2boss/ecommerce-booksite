@@ -1,10 +1,9 @@
 import type { Route } from "./+types/home";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useParams } from "react-router-dom";
-const supabaseUrl = "https://mbptntdjgaaxbkutvkst.supabase.co";
-const supabasekey = "sb_publishable_bl0foT0cUlXywsYFTu3CPQ_usJlIQx-";
-const supabase = createClient(supabaseUrl, supabasekey);
+import { supabase } from "~/utils/supabase";
+import { useCart } from "~/components/Context/CartContext";
 
 import type { Book } from "~/utils/types";
 
@@ -13,7 +12,15 @@ export default function BookDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [book, setBook] = useState<Book | null>(null);
-  const [addingToCart, setAddingToCart] = useState(false);
+  const { addToCart } = useCart();
+
+  async function handleSubmit(
+    event: FormEvent<HTMLButtonElement>
+  ): Promise<void> {
+    event.preventDefault();
+    if (book)
+      addToCart(book as Book);
+  }
 
   useEffect(() => {
     async function fetchBook() {
@@ -37,48 +44,50 @@ export default function BookDetails() {
 
   if (!book) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <p className="text-gray-400 text-xl">
-          Book not found or failed to load.
-        </p>
+      <div className="min-h-screen bg-yellow-400 text-white flex items-center justify-center">
+        <p className="text-black text-xl">Book not found or failed to load.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white py-12 px-6 flex justify-center">
-      <div className="max-w-5xl w-full bg-gray-800 rounded-lg shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="min-h-screen bg-yellow-400 text-white py-12 px-6 flex justify-center">
+      <div className="max-w-5xl w-full bg-yellow-900 rounded-lg shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-8 self-start">
         {/* Book Cover */}
         <div className="flex justify-center items-start">
           <img
             src={book.imageUrl}
             alt={`${book.title} cover`}
             className="object-cover rounded-lg shadow-md"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/mustang.png";
+            }}
           />
         </div>
 
         {/* Book Info */}
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col gap-y-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">{book.title}</h1>
-            <p className="text-gray-400 mb-4 text-lg">
+            <p className="text-white mb-4 text-lg">
               by <span className="text-white font-medium">{book.author}</span>
             </p>
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-200 mb-6">
               {book.summary || "No summary available for this title."}
             </p>
           </div>
 
           <div>
-            <div className="text-2xl font-bold text-blue-400 mb-2">
+            <div className="text-2xl font-bold text-blue-300 mb-2">
               ${book.price.toFixed(2)}
             </div>
-            <span className="text-sm text-gray-500 line-through">
-              List price: $17.99
-            </span>
 
             <div className="mt-6 flex gap-4">
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+              <button
+                onClick={handleSubmit}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+              >
                 Add to Cart
               </button>
               <button className="text-red-400 hover:text-red-600 transition duration-300">

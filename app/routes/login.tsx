@@ -79,12 +79,12 @@ export default function Login() {
         </form>
 
         <div className="mt-4 text-center text-sm text-gray-600">
-          <a
-            href="#"
+          <NavLink
+            to="/forgot-password"
             className="text-gray-700 hover:text-gray-900 hover:underline"
           >
             Forgot Password?
-          </a>
+          </NavLink>
         </div>
         <div className="mt-2 text-center text-sm text-gray-600">
           Don't have an account?

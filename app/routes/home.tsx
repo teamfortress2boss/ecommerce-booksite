@@ -4,7 +4,7 @@ import { supabase } from '~/utils/supabase';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Campus Bookstore" },
+    { title: "Mustang Bookstore" },
     { name: "description", content: "" },
   ];
 }
@@ -15,7 +15,6 @@ import type { Book } from "~/utils/types";
 function HomePage() {
   const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState('');
 
   async function fetchBooks() {
     setIsLoading(true);
@@ -26,7 +25,9 @@ function HomePage() {
       console.log("Supabase Fetch Error:", error);
       setFeaturedBooks([]);
     } else {
-      setFeaturedBooks(products as Book[]);
+      const shuffled = [...products].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 6);
+      setFeaturedBooks(selected as Book[]);
     }
     setIsLoading(false);
   }
