@@ -15,17 +15,36 @@ export default function Contact() {
     event.preventDefault();
     setSuccessMessage("");
 
-    const { error } = await supabase.functions.invoke("resend-email", {
-      method: "POST",
-      body: {
-        to: email,
-        subject: `Contacting from E-Commerce Website (${name})`,
-        html: message,
-      },
-    });
+    const SENDER = "josemrr27@gmail.com"; // "xtrarev1@gmail.com";
 
-    if (error) {
-      console.error(error.message);
+    const { error: errorSender } = await supabase.functions.invoke(
+      "resend-email",
+      {
+        method: "POST",
+        body: {
+          subject: `Contacting from E-Commerce Website (${name})`,
+          to: SENDER,
+          html:
+            `<p>Feedback provided by ${name} &lt;${email}&gt;<p>` +
+            `<p>${message}<p>`,
+        },
+      }
+    );
+
+    const { error: errorReceiver } = await supabase.functions.invoke(
+      "resend-email",
+      {
+        method: "POST",
+        body: {
+          subject: `Thank you for your feedback, ${name}!`,
+          to: email,
+          html: "We appreciate your comments and we'll work on it.",
+        },
+      }
+    );
+
+    if (errorSender || errorReceiver) {
+      console.error(errorSender || errorReceiver);
       setSuccessMessage("Something went wrong. Please try again later.");
       return;
     }
