@@ -15,36 +15,23 @@ export default function Contact() {
     event.preventDefault();
     setSuccessMessage("");
 
-    const SENDER = "josemrr27@gmail.com"; // "xtrarev1@gmail.com";
+    const SENDER = "josemanuelnew@hotmail.com"; // "xtrarev1@gmail.com";
 
     const { error: errorSender } = await supabase.functions.invoke(
       "resend-email",
       {
         method: "POST",
         body: {
-          subject: `Contacting from E-Commerce Website (${name})`,
+          subject: `Feedback from a Mustang (${name})`,
           to: SENDER,
           html:
-            `<p>Feedback provided by ${name} &lt;${email}&gt;<p>` +
-            `<p>${message}<p>`,
+            `<p>Feedback provided by ${name} &lt;${email}&gt;</p>` +
+            `<p>${message}</p>`,
         },
       }
     );
-
-    const { error: errorReceiver } = await supabase.functions.invoke(
-      "resend-email",
-      {
-        method: "POST",
-        body: {
-          subject: `Thank you for your feedback, ${name}!`,
-          to: email,
-          html: "We appreciate your comments and we'll work on it.",
-        },
-      }
-    );
-
-    if (errorSender || errorReceiver) {
-      console.error(errorSender || errorReceiver);
+    if (errorSender) {
+      console.error("Sending... ", errorSender);
       setSuccessMessage("Something went wrong. Please try again later.");
       return;
     }
@@ -57,8 +44,8 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-yellow-400">
-      <div className="bg-yellow-900 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-2xl text-white">
         <h2 className="text-4xl font-bold text-center mb-6">Contact Us</h2>
 
         <p className="text-gray-300 text-center mb-8">
@@ -66,11 +53,11 @@ export default function Contact() {
           just want to say hello, drop us a message below.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6" method="POST">
           <input
             type="text"
             placeholder="Your Name"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -78,7 +65,7 @@ export default function Contact() {
           <input
             type="email"
             placeholder="Your Email"
-            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -86,7 +73,7 @@ export default function Contact() {
           <textarea
             placeholder="Your Message"
             rows={5}
-            className="w-full p-3 border border-gray-600 rounded-lg bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
@@ -105,9 +92,9 @@ export default function Contact() {
           </p>
         )}
 
-        <div className="mt-6 text-center text-sm text-white">
+        <div className="mt-6 text-center text-sm text-gray-400">
           Prefer email? Reach us at{" "}
-          <span className="text-blue-400">support@mustangbookstore.com</span>
+          <span className="text-blue-400">support@campusbookstore.com</span>
         </div>
       </div>
     </div>
