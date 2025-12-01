@@ -35,7 +35,7 @@ const Checkout: React.FC = () => {
         last_name,
         phone_number,
         address,
-        apt_suite_building,
+        ["apt/suite/building"]: apt_suite_building,
         city,
         state,
         country,
