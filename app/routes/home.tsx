@@ -24,7 +24,7 @@ function HomePage() {
     if (error) {
       console.log("Supabase Fetch Error:", error);
       setFeaturedBooks([]);
-    } else {
+    } else if (products){
       const shuffled = [...products].sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, 6);
       setFeaturedBooks(selected as Book[]);

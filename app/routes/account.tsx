@@ -74,9 +74,11 @@ export default function Account() {
 
           {/* Account Actions */}
           <div className="flex justify-between mt-6">
+            {/*
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
               Edit Profile
             </button>
+            */}
             <button
               onClick={() => {
                 supabase.auth.signOut();
